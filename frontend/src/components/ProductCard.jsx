@@ -6,7 +6,7 @@ import { useState } from "react";
 
 
 const ProductCard = ({ product }) => {//+
-    const[updatedProduct, setUpdatesProduct] = useState(product)
+    const[updatedProduct, setUpdatedProduct] = useState(product)
 
     const textcolor = useColorModeValue("gray.600", "gray.200")
     const bg = useColorModeValue("white", "gray.800")
@@ -24,7 +24,7 @@ const ProductCard = ({ product }) => {//+
                 description: message,
                 status: "error",
                 duration: 3000,
-                inClosable: true
+                isClosable: true
             })
              // prevent the rest of the function from running if the delete fails.  This ensures the toast doesn't show up if the delete request fails.
         }else{
@@ -33,7 +33,7 @@ const ProductCard = ({ product }) => {//+
                 description: message,
                 status: "success",
                 duration: 3000,
-                inClosable: true
+                isClosable: true
             })
              // after the delete is successful, clear the input fields.
         }
@@ -43,22 +43,22 @@ const ProductCard = ({ product }) => {//+
     
     const handleUpdateProduct = async (pid, updatedProduct) => {
         const {success,message} = await updateProduct(pid, updatedProduct)
-        onClose()
         if(!success) {
             toast({
                 title: "Error",
                 description: message,
                 status: "error",
                 duration: 3000,
-                inClosable: true
+                isClosable: true
             })
         } else {
+            onClose()
             toast({
                 title: "Success",
                 description: message,
                 status: "success",
                 duration: 3000,
-                inClosable: true
+                isClosable: true
             })
             // after the update is successful, close the modal.
         }
@@ -95,16 +95,17 @@ const ProductCard = ({ product }) => {//+
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack spacing={4}>
-                            <Input placeholder="Product Nmae" name="name" 
+                            <Input placeholder="Product Name" name="name"
                             value={updatedProduct.name} 
-                            onChange={(e) => setUpdatesProduct({...updatedProduct, name: e.target.value})}
+                            onChange={(e) => setUpdatedProduct({...updatedProduct, name: e.target.value})}
                             />
-                            <Input placeholder="price" name="price" type="number" 
+                            <Input placeholder="Price" name="price" type="number"
                             value={updatedProduct.price}
-                            onChange={(e) => setUpdatesProduct({...updatedProduct, price: e.target.value})}
+                            onChange={(e) => setUpdatedProduct({...updatedProduct, price: e.target.value})}
                             />
                             <Input placeholder="Image URL" name="image"
                             value={updatedProduct.image} 
+                            onChange={(e) => setUpdatedProduct({...updatedProduct, image: e.target.value})}
                             />
                         </VStack>
                     </ModalBody>
